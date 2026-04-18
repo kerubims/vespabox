@@ -1,0 +1,91 @@
+@import "tailwindcss";
+
+/* ===== DESIGN TOKENS (Clinical Atelier) ===== */
+@theme {
+    --color-surface: #f7f9fb;
+    --color-primary-container: #006876;
+    --color-on-tertiary-container: #ffceb8;
+    --color-primary-fixed: #a1efff;
+    --color-on-error: #ffffff;
+    --color-on-secondary-fixed-variant: #3a485b;
+    --color-secondary-container: #d5e3fc;
+    --color-inverse-primary: #44d8f1;
+    --color-surface-container: #eceef0;
+    --color-tertiary-container: #a04101;
+    --color-secondary-fixed-dim: #b9c7df;
+    --color-on-primary-fixed-variant: #004e59;
+    --color-surface-container-low: #f2f4f6;
+    --color-secondary-fixed: #d5e3fc;
+    --color-on-secondary-fixed: #0d1c2e;
+    --color-on-secondary-container: #57657a;
+    --color-tertiary-fixed: #ffdbcc;
+    --color-on-surface: #191c1e;
+    --color-error: #ba1a1a;
+    --color-on-primary: #ffffff;
+    --color-inverse-on-surface: #eff1f3;
+    --color-on-secondary: #ffffff;
+    --color-surface-variant: #e0e3e5;
+    --color-tertiary-fixed-dim: #ffb693;
+    --color-tertiary: #7a3000;
+    --color-on-primary-fixed: #001f25;
+    --color-primary: #004e59;
+    --color-surface-container-highest: #e0e3e5;
+    --color-surface-tint: #006876;
+    --color-inverse-surface: #2d3133;
+    --color-outline-variant: #c2c6d4;
+    --color-error-container: #ffdad6;
+    --color-on-tertiary-fixed: #351000;
+    --color-on-primary-container: #72e9ff;
+    --color-on-tertiary: #ffffff;
+    --color-secondary: #515f74;
+    --color-outline: #727784;
+    --color-surface-container-lowest: #ffffff;
+    --color-surface-container-high: #e6e8ea;
+    --color-on-error-container: #93000a;
+    --color-on-surface-variant: #424752;
+    --color-primary-fixed-dim: #44d8f1;
+    --color-surface-bright: #f7f9fb;
+    --color-on-tertiary-fixed-variant: #7a3000;
+    --color-background: #f7f9fb;
+    --color-on-background: #191c1e;
+    --color-surface-dim: #d8dadc;
+    
+    --color-accent: #006876; /* Keep some legacy variables for compatibility */
+    --color-accent-hover: #004e59;
+    --color-danger: #ba1a1a;
+    --color-success: #10b981;
+    --color-warning: #f59e0b;
+    --color-info: #0ea5e9;
+    --color-sidebar: #1e293b;
+    --color-sidebar-hover: #334155;
+
+    --font-family-headline: "Inter", sans-serif;
+    --font-family-body: "Inter", sans-serif;
+    --font-family-label: "Inter", sans-serif;
+}
+
+/* Custom Utilities for AlpineJS Animations */
+[x-cloak] { display: none !important; }
+
+@layer utilities {
+    .animate-fade-in {
+        animation: fadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .animate-slide-up {
+        animation: slideUp 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+}
