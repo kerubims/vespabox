@@ -69,6 +69,15 @@ class BookingController extends Controller
             'keluhan' => 'required|string',
             'tanggal' => 'required|date|after_or_equal:today',
             'jam' => 'required|date_format:H:i',
+        ], [
+            'plat_nomor.required' => 'Plat nomor kendaraan wajib diisi.',
+            'kendaraan.required'  => 'Jenis kendaraan wajib diisi.',
+            'keluhan.required'    => 'Keluhan atau deskripsi masalah wajib diisi.',
+            'tanggal.required'    => 'Tanggal booking wajib dipilih.',
+            'tanggal.date'        => 'Format tanggal tidak valid.',
+            'tanggal.after_or_equal' => 'Tanggal booking tidak boleh sebelum hari ini.',
+            'jam.required'        => 'Jam booking wajib dipilih.',
+            'jam.date_format'     => 'Format jam tidak valid.',
         ]);
 
         // Check Capacity

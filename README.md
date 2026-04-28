@@ -54,6 +54,30 @@ npm run build
 
 ---
 
+## Memperbarui Aplikasi (Jika Sudah Pernah Clone)
+
+Jika Anda sebelumnya sudah pernah melakukan instalasi proyek ini di laptop lain atau sekadar ingin menarik pembaruan fitur terbaru dari repositori, jalankan perintah-perintah berikut secara berurutan di terminal:
+
+```bash
+# 1. Tarik pembaruan kode terbaru
+git pull origin main
+
+# 2. Perbarui dependensi backend
+composer install
+
+# 3. Perbarui dependensi frontend dan build aset
+npm install
+npm run build
+
+# 4. Jalankan migrasi terbaru (PENTING: untuk menambahkan kolom database baru yang diperlukan fitur terbaru)
+php artisan migrate
+
+# 5. Bersihkan cache sistem
+php artisan optimize:clear
+```
+
+---
+
 ## Menjalankan Aplikasi (Local Development)
 
 Proyek ini menggunakan **Laravel Reverb** (Websocket) dan **Queues** untuk mendukung fitur *Live Antrean* dan notifikasi *Realtime* di halaman admin. Agar aplikasi dapat berjalan dengan sempurna, Anda memerlukan **4 proses yang berjalan bersamaan**. 

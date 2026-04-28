@@ -51,6 +51,26 @@ class SparepartController extends Controller
             'stok' => 'required|integer|min:0',
             'stok_minimum' => 'required|integer|min:0',
             'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+        ], [
+            'kode.required'          => 'Kode sparepart wajib diisi.',
+            'kode.unique'            => 'Kode sparepart ini sudah ada. Gunakan kode yang berbeda.',
+            'nama.required'          => 'Nama sparepart wajib diisi.',
+            'nama.max'               => 'Nama sparepart tidak boleh lebih dari 255 karakter.',
+            'kategori.required'      => 'Kategori wajib dipilih.',
+            'harga_beli.numeric'     => 'Harga beli harus berupa angka.',
+            'harga_beli.min'         => 'Harga beli tidak boleh kurang dari 0.',
+            'harga_jual.required'    => 'Harga jual wajib diisi.',
+            'harga_jual.numeric'     => 'Harga jual harus berupa angka.',
+            'harga_jual.min'         => 'Harga jual tidak boleh kurang dari 0.',
+            'stok.required'          => 'Stok wajib diisi.',
+            'stok.integer'           => 'Stok harus berupa bilangan bulat.',
+            'stok.min'               => 'Stok tidak boleh kurang dari 0.',
+            'stok_minimum.required'  => 'Stok minimum wajib diisi.',
+            'stok_minimum.integer'   => 'Stok minimum harus berupa bilangan bulat.',
+            'stok_minimum.min'       => 'Stok minimum tidak boleh kurang dari 0.',
+            'image.image'            => 'File yang diunggah harus berupa gambar.',
+            'image.mimes'            => 'Gambar harus berformat JPG, JPEG, PNG, atau WebP.',
+            'image.max'              => 'Ukuran gambar tidak boleh lebih dari 2 MB.',
         ]);
 
         if ($request->hasFile('image')) {
@@ -81,6 +101,24 @@ class SparepartController extends Controller
             'stok' => 'required|integer|min:0',
             'stok_minimum' => 'required|integer|min:0',
             'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+        ], [
+            'nama.required'          => 'Nama sparepart wajib diisi.',
+            'nama.max'               => 'Nama sparepart tidak boleh lebih dari 255 karakter.',
+            'kategori.required'      => 'Kategori wajib dipilih.',
+            'harga_beli.numeric'     => 'Harga beli harus berupa angka.',
+            'harga_beli.min'         => 'Harga beli tidak boleh kurang dari 0.',
+            'harga_jual.required'    => 'Harga jual wajib diisi.',
+            'harga_jual.numeric'     => 'Harga jual harus berupa angka.',
+            'harga_jual.min'         => 'Harga jual tidak boleh kurang dari 0.',
+            'stok.required'          => 'Stok wajib diisi.',
+            'stok.integer'           => 'Stok harus berupa bilangan bulat.',
+            'stok.min'               => 'Stok tidak boleh kurang dari 0.',
+            'stok_minimum.required'  => 'Stok minimum wajib diisi.',
+            'stok_minimum.integer'   => 'Stok minimum harus berupa bilangan bulat.',
+            'stok_minimum.min'       => 'Stok minimum tidak boleh kurang dari 0.',
+            'image.image'            => 'File yang diunggah harus berupa gambar.',
+            'image.mimes'            => 'Gambar harus berformat JPG, JPEG, PNG, atau WebP.',
+            'image.max'              => 'Ukuran gambar tidak boleh lebih dari 2 MB.',
         ]);
 
         if ($request->hasFile('image')) {

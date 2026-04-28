@@ -32,10 +32,24 @@ class BookingController extends Controller
     {
         $request->validate([
             'status' => 'required|in:Menunggu,Dikonfirmasi,Sedang Dikerjakan,Selesai,Dibatalkan',
+            'cancel_reason' => 'required_if:status,Dibatalkan|nullable|string|max:500',
+        ], [
+            'status.required' => 'Status wajib dipilih.',
+            'status.in'       => 'Status yang dipilih tidak valid.',
+            'cancel_reason.required_if' => 'Alasan pembatalan wajib diisi.',
+            'cancel_reason.max' => 'Alasan tidak boleh lebih dari 500 karakter.',
         ]);
 
         $booking = Booking::findOrFail($id);
-        $booking->update(['status' => $request->status]);
+        
+        $updateData = ['status' => $request->status];
+        if ($request->status === 'Dibatalkan') {
+            $updateData['cancel_reason'] = $request->cancel_reason;
+        } else {
+            $updateData['cancel_reason'] = null; // Clear if status changed back (though unlikely)
+        }
+
+        $booking->update($updateData);
 
         if ($booking->user) {
             $booking->user->notify(new \App\Notifications\BookingStatusUpdatedNotification($booking));

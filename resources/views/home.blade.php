@@ -14,7 +14,7 @@
         </p>
         
         <div class="flex flex-col sm:flex-row gap-4 pt-4">
-            <a href="{{ route('login') }}" class="bg-gradient-to-br from-primary to-primary-container text-white font-medium px-8 py-4 rounded-lg shadow-[0px_20px_40px_rgba(25,28,30,0.06)] hover:opacity-90 transition-opacity flex items-center justify-center gap-2">
+            <a href="{{ auth()->check() ? route('customer.booking.create') : route('login') }}" class="bg-gradient-to-br from-primary to-primary-container text-white font-medium px-8 py-4 rounded-lg shadow-[0px_20px_40px_rgba(25,28,30,0.06)] hover:opacity-90 transition-opacity flex items-center justify-center gap-2">
                 Jadwalkan Servis
                 <span class="material-symbols-outlined" data-icon="arrow_forward" style="font-variation-settings: 'FILL' 0;">arrow_forward</span>
             </a>

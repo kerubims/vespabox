@@ -105,6 +105,14 @@
                     <button @click="showReplyForm = !showReplyForm" class="w-full py-2 bg-white border border-gray-200 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-50 transition-all text-center">
                         {{ $review->admin_reply ? 'Edit Balasan' : 'Tanggapi' }}
                     </button>
+                    
+                    <form action="{{ route('admin.review.destroy', $review->id) }}" method="POST" class="w-full" onsubmit="return confirm('Apakah Anda yakin ingin menghapus ulasan ini?');">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="w-full py-2 bg-white border border-red-200 text-red-600 rounded-lg text-sm font-medium hover:bg-red-50 hover:border-red-300 transition-all text-center flex items-center justify-center gap-1">
+                            <span class="material-symbols-outlined text-[16px]">delete</span> Hapus
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>

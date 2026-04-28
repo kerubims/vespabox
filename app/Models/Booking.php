@@ -19,6 +19,7 @@ class Booking extends Model
         'jam',
         'status',
         'is_reviewed',
+        'cancel_reason',
     ];
 
     protected function casts(): array

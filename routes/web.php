@@ -12,6 +12,7 @@ use App\Http\Controllers\Customer\BookingController as CustomerBookingController
 use App\Http\Controllers\Customer\QueueController;
 use App\Http\Controllers\Customer\HistoryController;
 use App\Http\Controllers\Customer\ReviewController as CustomerReviewController;
+use App\Http\Controllers\Customer\ProfileController;
 
 // Admin Controllers
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
@@ -32,6 +33,9 @@ use App\Http\Controllers\Customer\NotificationController as CustomerNotification
 */
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/katalog', [HomeController::class, 'katalog'])->name('katalog');
+Route::get('/docs', function () {
+    return view('docs.preview');
+})->name('docs.preview');
 
 // Authentication Routes
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
@@ -70,6 +74,11 @@ Route::middleware(['auth', 'role:customer'])->prefix('customer')->name('customer
     // Notifications
     Route::get('/notifications', [CustomerNotificationController::class, 'index'])->name('notifications.index');
     Route::post('/notifications/read', [CustomerNotificationController::class, 'markAsRead'])->name('notifications.read');
+
+    // Profile
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'updateInfo'])->name('profile.updateInfo');
+    Route::put('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.updatePassword');
 });
 
 /*
@@ -111,6 +120,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     // Review Management
     Route::get('/review', [AdminReviewController::class, 'index'])->name('review.index');
     Route::post('/review/{id}/reply', [AdminReviewController::class, 'reply'])->name('review.reply');
+    Route::delete('/review/{id}', [AdminReviewController::class, 'destroy'])->name('review.destroy');
 
     // Notifications
     Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');

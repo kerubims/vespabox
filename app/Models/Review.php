@@ -15,6 +15,7 @@ class Review extends Model
         'rating',
         'comment',
         'admin_reply',
+        'is_hidden',
     ];
 
     public function booking()

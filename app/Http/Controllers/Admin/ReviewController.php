@@ -10,7 +10,7 @@ class ReviewController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Review::with('user', 'booking');
+        $query = Review::with('user', 'booking')->where('is_hidden', false);
 
         if ($request->filled('filter')) {
             if ($request->filter === '5star') {
@@ -25,9 +25,9 @@ class ReviewController extends Controller
         $reviews = $query->orderBy('created_at', 'desc')->paginate(10);
 
         // Stats
-        $avgRating = Review::avg('rating') ?? 0;
-        $totalReviews = Review::count();
-        $unrepliedCount = Review::whereNull('admin_reply')->count();
+        $avgRating = Review::where('is_hidden', false)->avg('rating') ?? 0;
+        $totalReviews = Review::where('is_hidden', false)->count();
+        $unrepliedCount = Review::where('is_hidden', false)->whereNull('admin_reply')->count();
 
         return view('admin.review.index', compact('reviews', 'avgRating', 'totalReviews', 'unrepliedCount'));
     }
@@ -36,6 +36,9 @@ class ReviewController extends Controller
     {
         $request->validate([
             'admin_reply' => 'required|string|max:1000',
+        ], [
+            'admin_reply.required' => 'Balasan wajib diisi.',
+            'admin_reply.max'      => 'Balasan tidak boleh lebih dari 1000 karakter.',
         ]);
 
         $review = Review::findOrFail($id);
@@ -46,5 +49,15 @@ class ReviewController extends Controller
         }
 
         return back()->with('success', 'Balasan berhasil disimpan');
+    }
+
+    public function destroy($id)
+    {
+        $review = Review::findOrFail($id);
+        
+        // Sembunyikan ulasan dari admin dan publik
+        $review->update(['is_hidden' => true]);
+
+        return back()->with('success', 'Ulasan berhasil disembunyikan');
     }
 }

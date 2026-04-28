@@ -22,6 +22,15 @@ class SlotController extends Controller
             'slots.*.id' => 'required|exists:slots,id',
             'slots.*.kapasitas' => 'required|integer|min:0',
             'slots.*.is_active' => 'required|boolean',
+        ], [
+            'slots.required'              => 'Data slot wajib diisi.',
+            'slots.array'                 => 'Format data slot tidak valid.',
+            'slots.*.id.required'         => 'ID slot wajib diisi.',
+            'slots.*.id.exists'           => 'Slot yang dipilih tidak ditemukan.',
+            'slots.*.kapasitas.required'  => 'Kapasitas slot wajib diisi.',
+            'slots.*.kapasitas.integer'   => 'Kapasitas harus berupa bilangan bulat.',
+            'slots.*.kapasitas.min'       => 'Kapasitas tidak boleh kurang dari 0.',
+            'slots.*.is_active.required'  => 'Status aktif slot wajib diisi.',
         ]);
 
         foreach ($request->slots as $slotData) {

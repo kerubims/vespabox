@@ -31,6 +31,14 @@ class ReviewController extends Controller
             'booking_id' => 'required|exists:bookings,id',
             'rating' => 'required|integer|min:1|max:5',
             'comment' => 'nullable|string|max:1000',
+        ], [
+            'booking_id.required' => 'Data booking tidak ditemukan.',
+            'booking_id.exists'   => 'Booking yang dipilih tidak valid.',
+            'rating.required'     => 'Silakan berikan rating terlebih dahulu.',
+            'rating.integer'      => 'Rating harus berupa angka.',
+            'rating.min'          => 'Rating minimal adalah 1 bintang.',
+            'rating.max'          => 'Rating maksimal adalah 5 bintang.',
+            'comment.max'         => 'Komentar tidak boleh lebih dari 1000 karakter.',
         ]);
 
         // Verify the booking belongs to the user and is completed

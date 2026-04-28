@@ -29,6 +29,15 @@ class RestockController extends Controller
             'items.*.sparepart_id' => 'required|exists:spareparts,id',
             'items.*.qty' => 'required|integer|min:1',
             'catatan' => 'nullable|string|max:500',
+        ], [
+            'items.required'               => 'Tambahkan minimal satu item restock.',
+            'items.min'                    => 'Tambahkan minimal satu item restock.',
+            'items.*.sparepart_id.required' => 'Sparepart wajib dipilih.',
+            'items.*.sparepart_id.exists'  => 'Sparepart yang dipilih tidak ditemukan.',
+            'items.*.qty.required'         => 'Jumlah wajib diisi.',
+            'items.*.qty.integer'          => 'Jumlah harus berupa bilangan bulat.',
+            'items.*.qty.min'              => 'Jumlah minimal adalah 1.',
+            'catatan.max'                  => 'Catatan tidak boleh lebih dari 500 karakter.',
         ]);
 
         try {

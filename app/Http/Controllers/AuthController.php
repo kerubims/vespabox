@@ -19,6 +19,10 @@ class AuthController extends Controller
         $credentials = $request->validate([
             'email' => ['required', 'email'],
             'password' => ['required'],
+        ], [
+            'email.required' => 'Alamat email wajib diisi.',
+            'email.email'    => 'Masukkan alamat email yang valid.',
+            'password.required' => 'Kata sandi wajib diisi.',
         ]);
 
         if (Auth::attempt($credentials)) {
@@ -32,7 +36,7 @@ class AuthController extends Controller
         }
 
         return back()->withErrors([
-            'email' => 'The provided credentials do not match our records.',
+            'email' => 'Email atau kata sandi yang Anda masukkan salah.',
         ])->onlyInput('email');
     }
 
@@ -48,6 +52,18 @@ class AuthController extends Controller
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'phone' => ['required', 'string', 'max:15', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+        ], [
+            'name.required'      => 'Nama lengkap wajib diisi.',
+            'name.max'           => 'Nama tidak boleh lebih dari 255 karakter.',
+            'email.required'     => 'Alamat email wajib diisi.',
+            'email.email'        => 'Masukkan alamat email yang valid.',
+            'email.unique'       => 'Email ini sudah terdaftar. Silakan gunakan email lain.',
+            'phone.required'     => 'Nomor WhatsApp wajib diisi.',
+            'phone.max'          => 'Nomor WhatsApp tidak boleh lebih dari 15 karakter.',
+            'phone.unique'       => 'Nomor WhatsApp ini sudah terdaftar. Silakan gunakan nomor lain.',
+            'password.required'  => 'Kata sandi wajib diisi.',
+            'password.min'       => 'Kata sandi minimal harus 8 karakter.',
+            'password.confirmed' => 'Konfirmasi kata sandi tidak cocok.',
         ]);
 
         $user = User::create([

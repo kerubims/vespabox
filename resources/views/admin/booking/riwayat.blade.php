@@ -59,6 +59,11 @@
                                 <span class="px-2.5 py-1 rounded-full text-xs font-medium bg-success/10 text-success border border-success/20">Selesai</span>
                             @else
                                 <span class="px-2.5 py-1 rounded-full text-xs font-medium bg-danger/10 text-danger border border-danger/20">Dibatalkan</span>
+                                @if($booking->cancel_reason)
+                                <div class="mt-2 text-[11px] text-danger/80 max-w-[150px] leading-tight" title="{{ $booking->cancel_reason }}">
+                                    <span class="font-bold">Alasan:</span> {{ $booking->cancel_reason }}
+                                </div>
+                                @endif
                             @endif
                         </td>
                         <td class="px-6 py-4 text-right font-semibold">

@@ -86,18 +86,56 @@
                                 </div>
                             </div>
                         </div>
-                        <form method="POST" action="{{ route('logout') }}" class="inline">
-                            @csrf
-                            <button type="submit" class="text-sm font-medium text-error hover:text-error-container transition-colors">Keluar</button>
-                        </form>
+                        {{-- Profile Dropdown --}}
+                        <div class="relative" x-data="{ profileOpen: false }">
+                            <button
+                                class="relative flex items-center justify-center w-9 h-9 rounded-full text-slate-500 hover:bg-slate-100 hover:text-slate-700 transition-all"
+                                @click="profileOpen = !profileOpen"
+                                id="profile-btn"
+                            >
+                                <span class="material-symbols-outlined text-[24px]">person</span>
+                            </button>
+
+                            <div
+                                x-show="profileOpen"
+                                @click.away="profileOpen = false"
+                                x-transition:enter="transition ease-out duration-200"
+                                x-transition:enter-start="opacity-0 translate-y-1 scale-95"
+                                x-transition:enter-end="opacity-100 translate-y-0 scale-100"
+                                x-transition:leave="transition ease-in duration-150"
+                                x-transition:leave-start="opacity-100 translate-y-0 scale-100"
+                                x-transition:leave-end="opacity-0 translate-y-1 scale-95"
+                                class="absolute right-0 top-full mt-3 w-56 bg-white rounded-xl shadow-[0px_10px_40px_rgba(0,0,0,0.08)] border border-slate-100 overflow-hidden"
+                                id="profile-dropdown"
+                                x-cloak
+                            >
+                                <div class="px-4 py-3 border-b border-slate-100">
+                                    <p class="text-sm font-semibold text-slate-800 truncate">{{ auth()->user()->name }}</p>
+                                    <p class="text-xs text-slate-400 truncate">{{ auth()->user()->email }}</p>
+                                </div>
+                                <div class="py-1">
+                                    <a href="{{ route('customer.profile.edit') }}" class="flex items-center gap-3 px-4 py-2.5 text-sm text-slate-600 hover:bg-slate-50 hover:text-primary transition-colors">
+                                        <span class="material-symbols-outlined text-[18px]">manage_accounts</span>
+                                        Profil Saya
+                                    </a>
+                                    <form method="POST" action="{{ route('logout') }}">
+                                        @csrf
+                                        <button type="submit" class="flex items-center gap-3 w-full px-4 py-2.5 text-sm text-error hover:bg-red-50 transition-colors">
+                                            <span class="material-symbols-outlined text-[18px]">logout</span>
+                                            Keluar
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
                     @elseif(auth()->user()->role === 'admin')
                         <a href="{{ route('admin.dashboard') }}" class="bg-primary hover:bg-primary-container text-on-primary font-medium text-sm px-5 py-2.5 rounded transition-transform scale-95 active:opacity-80">
                             Panel Admin
                         </a>
                     @endif
-                @else                    
-                    <a href="{{ route('login') }}" class="bg-primary hover:bg-primary-container text-on-primary font-medium text-sm px-5 py-2.5 rounded transition-transform scale-95 active:opacity-80">
-                        Pesan Jadwal
+                @else
+                    <a href="{{ route('login') }}" class="relative flex items-center justify-center w-9 h-9 rounded-full text-slate-500 hover:bg-slate-100 hover:text-slate-700 transition-all" title="Masuk">
+                        <span class="material-symbols-outlined text-[24px]">person</span>
                     </a>
                 @endauth
             </div>
@@ -116,14 +154,18 @@
                     @if(auth()->user()->role === 'customer')
                         <a href="{{ route('customer.riwayat') }}" class="text-sm font-medium text-slate-700">Service History</a>
                         <a href="{{ route('customer.antrean') }}" class="text-sm font-medium text-slate-700">Live Queue</a>
-                        <a href="{{ route('customer.booking.create') }}" class="text-sm font-medium text-primary">Book Service</a>
+                        <a href="{{ route('customer.booking.create') }}" class="text-sm font-medium text-primary">Pesan Servis</a>
+                        <a href="{{ route('customer.profile.edit') }}" class="text-sm font-medium text-slate-700">Profil Saya</a>
                         <form method="POST" action="{{ route('logout') }}" class="inline">
                             @csrf
-                            <button type="submit" class="text-sm font-medium text-error text-left">Logout</button>
+                            <button type="submit" class="text-sm font-medium text-error text-left">Keluar</button>
                         </form>
                     @endif
                 @else
-                    <a href="{{ route('login') }}" class="text-sm font-medium text-primary">Book Appointment</a>
+                    <a href="{{ route('login') }}" class="text-sm font-medium text-primary flex items-center gap-2">
+                        <span class="material-symbols-outlined text-[18px]">person</span>
+                        Masuk
+                    </a>
                 @endauth
             </div>
         </div>

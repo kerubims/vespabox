@@ -54,6 +54,20 @@ class PosController extends Controller
             'items.*.item_name' => 'required|string',
             'items.*.qty' => 'required|integer|min:1',
             'items.*.price' => 'required|numeric|min:0',
+        ], [
+            'booking_id.exists'           => 'Booking yang dipilih tidak ditemukan.',
+            'customer_name.max'           => 'Nama pelanggan tidak boleh lebih dari 255 karakter.',
+            'items.required'              => 'Tambahkan minimal satu item ke keranjang.',
+            'items.min'                   => 'Tambahkan minimal satu item ke keranjang.',
+            'items.*.item_type.required'  => 'Tipe item wajib diisi.',
+            'items.*.item_type.in'        => 'Tipe item tidak valid.',
+            'items.*.item_name.required'  => 'Nama item wajib diisi.',
+            'items.*.qty.required'        => 'Jumlah item wajib diisi.',
+            'items.*.qty.integer'         => 'Jumlah item harus berupa bilangan bulat.',
+            'items.*.qty.min'             => 'Jumlah item minimal adalah 1.',
+            'items.*.price.required'      => 'Harga item wajib diisi.',
+            'items.*.price.numeric'       => 'Harga item harus berupa angka.',
+            'items.*.price.min'           => 'Harga item tidak boleh kurang dari 0.',
         ]);
 
         // Validasi stok sparepart sebelum proses DB transaction

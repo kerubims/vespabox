@@ -6,7 +6,7 @@
 @endsection
 
 @section('content')
-<div class="space-y-6 animate-fade-in">
+<div class="space-y-6 animate-fade-in" x-data="{ cancelModalOpen: false, cancelFormAction: '', currentBookingId: '' }">
     
     {{-- Success Message --}}
     @if(session('success'))
@@ -51,11 +51,11 @@
                                 <input type="hidden" name="status" value="Dikonfirmasi">
                                 <button type="submit" class="w-full py-1.5 bg-accent text-white hover:bg-accent/90 rounded-lg text-xs font-semibold shadow-sm transition-colors">Konfirmasi</button>
                             </form>
-                            <form action="{{ route('admin.booking.updateStatus', $item->id) }}" method="POST">
-                                @csrf @method('PATCH')
-                                <input type="hidden" name="status" value="Dibatalkan">
-                                <button type="submit" class="py-1.5 px-3 bg-white border border-gray-200 text-gray-500 hover:text-danger hover:border-danger rounded-lg text-xs font-semibold transition-colors" onclick="return confirm('Batalkan booking ini?')">✕</button>
-                            </form>
+                            <button type="button" class="flex items-center justify-center px-2.5 bg-white border border-gray-200 text-gray-500 hover:text-danger hover:border-danger hover:bg-red-50 rounded-lg transition-colors shrink-0" @click.prevent.stop="cancelModalOpen = true; cancelFormAction = '{{ route('admin.booking.updateStatus', $item->id) }}'; currentBookingId = '{{ $item->kode_booking }}'" title="Batalkan">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                                </svg>
+                            </button>
                         </div>
                     </div>
                 @endforeach
@@ -124,6 +124,58 @@
             </div>
         </div>
 
+    </div>
+
+    {{-- Cancel Modal --}}
+    <div x-show="cancelModalOpen" style="display: none;" class="fixed inset-0 z-50 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+            <div x-show="cancelModalOpen" x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="ease-in duration-200" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+
+            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+
+            <div x-show="cancelModalOpen" @click.away="cancelModalOpen = false" x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95" x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100" x-transition:leave="ease-in duration-200" x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100" x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95" class="relative z-10 inline-block align-bottom bg-white rounded-2xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full border border-gray-100">
+                <form :action="cancelFormAction" method="POST">
+                    @csrf
+                    @method('PATCH')
+                    <input type="hidden" name="status" value="Dibatalkan">
+                    
+                    <div class="p-6 border-b border-gray-100 flex justify-between items-center bg-surface">
+                        <div class="flex items-center gap-3">
+                            <div class="flex-shrink-0 flex items-center justify-center h-10 w-10 rounded-full bg-danger/10 text-danger">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                </svg>
+                            </div>
+                            <h3 class="text-lg font-bold text-gray-800" id="modal-title">
+                                Batalkan Booking <span x-text="currentBookingId" class="text-primary font-black ml-1"></span>
+                            </h3>
+                        </div>
+                        <button type="button" @click="cancelModalOpen = false" class="text-gray-400 hover:text-danger transition-colors">
+                            <span class="material-symbols-outlined"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+</svg>
+</span>
+                        </button>
+                    </div>
+                    
+                    <div class="p-6 bg-white">                                            
+                        <div>
+                            <label for="cancel_reason" class="block text-sm font-bold text-gray-700 mb-2">Alasan Penolakan <span class="text-danger">*</span></label>
+                            <textarea id="cancel_reason" name="cancel_reason" rows="4" class="w-full rounded-xl border border-gray-200 shadow-sm focus:border-danger focus:ring focus:ring-danger/20 transition-all text-sm p-3.5 bg-gray-50 hover:bg-white focus:bg-white outline-none" placeholder="Contoh: Maaf, jadwal bengkel sudah penuh untuk hari ini. Silakan melakukan booking di hari lain..." required></textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="px-6 py-4 bg-gray-50/80 border-t border-gray-100 flex justify-end gap-3 rounded-b-2xl">
+                        <button type="button" @click="cancelModalOpen = false" class="px-5 py-2.5 rounded-xl border border-gray-200 bg-white text-gray-600 font-medium hover:bg-gray-50 hover:text-gray-800 transition-colors text-sm">
+                            Kembali
+                        </button>
+                        <button type="submit" class="px-5 py-2.5 rounded-xl bg-danger text-white font-bold hover:bg-red-600 transition-all text-sm shadow-[0_8px_16px_rgba(220,38,38,0.15)] hover:shadow-[0_8px_20px_rgba(220,38,38,0.25)] hover:-translate-y-0.5">
+                            Konfirmasi Pembatalan
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 </div>
 @endsection

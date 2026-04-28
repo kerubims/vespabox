@@ -11,14 +11,15 @@ class HomeController extends Controller
     public function index()
     {
         $reviews = Review::with(['user', 'booking'])
-            ->where('rating', '>=', 4)
+            ->where('rating', '>=', 0)
+            ->where('is_hidden', false)
             ->latest()
             ->get();
 
         $stats = [
             'total_servis' => \App\Models\Booking::where('status', 'Selesai')->count(),
-            'avg_rating' => round(\App\Models\Review::avg('rating') ?? 5.0, 1),
-            'total_reviews' => \App\Models\Review::count()
+            'avg_rating' => round(\App\Models\Review::where('is_hidden', false)->avg('rating') ?? 5.0, 1),
+            'total_reviews' => \App\Models\Review::where('is_hidden', false)->count()
         ];
 
         return view('home', compact('reviews', 'stats'));
